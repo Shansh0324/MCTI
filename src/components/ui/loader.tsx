@@ -19,8 +19,9 @@ export default function Loader({ children }: LoaderProps) {
         // Set initial stroke-dasharray and stroke-dashoffset for all paths and polylines
         const paths = svgRef.current.querySelectorAll("g > g > path, g > g > polyline")
         paths.forEach((path) => {
-          const length = path.getTotalLength()
-          gsap.set(path, {
+          const svgPath = path as SVGPathElement | SVGPolylineElement
+          const length = svgPath.getTotalLength()
+          gsap.set(svgPath, {
             strokeDasharray: length,
             strokeDashoffset: length
           })
@@ -67,7 +68,7 @@ export default function Loader({ children }: LoaderProps) {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-50 bg-background flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-background flex items-center justify-center px-4"
           >
             <motion.div
               initial={{ y: 0 }}
@@ -84,14 +85,14 @@ export default function Loader({ children }: LoaderProps) {
               transition={{ duration: 0.5 }}
               className="relative z-10"
             >
-              <div className="c-visual">
+              <div className="c-visual drop-shadow-lg">
                 <svg 
                   ref={svgRef}
                   id="Visual" 
                   xmlns="http://www.w3.org/2000/svg" 
                   xmlnsXlink="http://www.w3.org/1999/xlink"
                   viewBox="0 35 870 305"
-                  className="w-96 h-32"
+                  className="w-64 h-20 sm:w-80 sm:h-24 md:w-96 md:h-32"
                 >
                   <defs>
                     <clipPath id="clip-path" transform="translate(31.09 32.56)">
@@ -132,9 +133,9 @@ export default function Loader({ children }: LoaderProps) {
                   </defs>
                   <g id="dot">
                     <g clipPath="url(#clip-path)">
-                                             <path id="dot_path" d="M235.53,91.06s-3.65-21.72,18.78-61"
-                         transform="translate(31.09 32.56)" fill="none" stroke="#84cc16"
-                         strokeMiterlimit="10" strokeWidth="34"></path>
+                      <path id="dot_path" d="M235.53,91.06s-3.65-21.72,18.78-61"
+                        transform="translate(31.09 32.56)" fill="none" stroke="#84cc16"
+                        strokeMiterlimit="10" strokeWidth="34"></path>
                     </g>
                   </g>
                   <g id="l">
@@ -182,8 +183,6 @@ export default function Loader({ children }: LoaderProps) {
                   </g>
                 </svg>
               </div>
-              
-
             </motion.div>
           </motion.div>
         )}
