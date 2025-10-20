@@ -70,12 +70,12 @@ export const createAnimation = (
       name: `${variant}-${start}`,
       css: `
        ::view-transition-group(root) {
-        animation-duration: 0.7s;
-        animation-timing-function: var(--expo-out);
+        animation-duration: 0.6s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       }
             
       ::view-transition-new(root) {
-        animation-name: reveal-light;
+        animation: reveal-light 0.6s ease-out forwards;
       }
 
       ::view-transition-old(root),
@@ -84,7 +84,7 @@ export const createAnimation = (
         z-index: -1;
       }
       .dark::view-transition-new(root) {
-        animation-name: reveal-dark;
+        animation: reveal-dark 0.6s ease-out forwards;
       }
 
       @keyframes reveal-dark {
@@ -112,12 +112,12 @@ export const createAnimation = (
       name: `${variant}-${start}`,
       css: `
        ::view-transition-group(root) {
-        animation-duration: 0.7s;
-        animation-timing-function: var(--expo-out);
+        animation-duration: 0.6s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       }
             
       ::view-transition-new(root) {
-        animation-name: reveal-light;
+        animation: reveal-light 0.6s ease-out forwards;
       }
 
       ::view-transition-old(root),
@@ -126,7 +126,7 @@ export const createAnimation = (
         z-index: -1;
       }
       .dark::view-transition-new(root) {
-        animation-name: reveal-dark;
+        animation: reveal-dark 0.6s ease-out forwards;
       }
 
       @keyframes reveal-dark {
@@ -188,22 +188,26 @@ export const createAnimation = (
     name: `${variant}-${start}`,
     css: `
       ::view-transition-group(root) {
-        animation-timing-function: var(--expo-out);
+        animation-duration: 0.6s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       }
       ::view-transition-new(root) {
         mask: url('${svg}') ${start.replace("-", " ")} / 0 no-repeat;
         mask-origin: content-box;
-        animation: scale-${start} 1s;
+        animation: scale-${start} 0.6s ease-out forwards;
         transform-origin: ${transformOrigin};
       }
       ::view-transition-old(root),
       .dark::view-transition-old(root) {
-        animation: scale-${start} 1s;
+        animation: scale-${start} 0.6s ease-out forwards;
         transform-origin: ${transformOrigin};
         z-index: -1;
       }
       @keyframes scale-${start} {
-        to {
+        0% {
+          mask-size: 0;
+        }
+        100% {
           mask-size: 350vmax;
         }
       }

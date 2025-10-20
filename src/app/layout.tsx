@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import ThemeToggleButton from "@/components/ui/theme-toggle-button";
+import { LoadingProvider } from "@/contexts/LoadingContext";
 import Loader from "@/components/ui/loader";
 
 const inter = Inter({
@@ -23,19 +23,22 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className="dark">
             <body
                 className={`${inter.variable} font-sans antialiased bg-background text-foreground`}
             >
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="dark"
-                    enableSystem
+                    enableSystem={false}
+                    forcedTheme="dark"
                     disableTransitionOnChange
                 >
-                    <Loader>
-                        {children}
-                    </Loader>
+                    <LoadingProvider>
+                        <Loader>
+                            {children}
+                        </Loader>
+                    </LoadingProvider>
                 </ThemeProvider>
             </body>
         </html>
