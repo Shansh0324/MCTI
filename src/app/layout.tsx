@@ -13,8 +13,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-    title: "Multi Chain Token Indexer",
-    description: "Created with the help of Frontend Tribe",
+    title: "Dexify",
+    description: "Your gateway to seamless decentralized trading.",
 };
 
 export default function RootLayout({
