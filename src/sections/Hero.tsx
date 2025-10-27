@@ -171,7 +171,7 @@ export default function Hero() {
                 <form className="flex flex-col sm:flex-row border border-white/15 rounded-full p-2 mt-8 max-w-lg mx-auto gap-2">
                     <input
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder="Enter the address"
                         className="bg-transparent px-4 flex-1 min-w-0 outline-none"
                     />
                     <Button
@@ -180,7 +180,7 @@ export default function Hero() {
                         className="w-full sm:w-auto"
                         size="sm"
                     >
-                        Sign Up
+                        Search 
                     </Button>
                 </form>
             </div>
