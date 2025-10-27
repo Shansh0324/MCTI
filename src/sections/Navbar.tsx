@@ -85,14 +85,16 @@ export default function Navbar() {
                                 <Button
                                     variant="secondary"
                                     className="hidden md:inline-flex items-center"
+                                    onClick={() => window.open('https://krypt-me.netlify.app', '_blank')}
                                 >
-                                    Log In
+                                    Send ETH
                                 </Button>
                                 <Button
                                     variant="primary"
                                     className="hidden md:inline-flex items-center"
+                                    onClick={() => window.open('https://solana-me.netlify.app', '_blank')}
                                 >
-                                    Sign Up
+                                    Send SOL
                                 </Button>
                             </div>
                         </div>
@@ -119,11 +121,17 @@ export default function Navbar() {
                                                 {link.label}
                                             </a>
                                         ))}
-                                        <Button variant="secondary">
-                                            Log In
+                                        <Button 
+                                            variant="secondary"
+                                            onClick={() => window.open('https://krypt-me.netlify.app', '_blank')}
+                                        >
+                                            Send ETH
                                         </Button>
-                                        <Button variant="primary">
-                                            Sign Up
+                                        <Button 
+                                            variant="primary"
+                                            onClick={() => window.open('https://solana-me.netlify.app', '_blank')}
+                                        >
+                                            Send SOL
                                         </Button>
                                     </div>
                                 </motion.div>

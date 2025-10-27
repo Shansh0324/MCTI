@@ -89,6 +89,7 @@ export default function Hero() {
     ]);
     return (
         <section
+            id="home"
             className="py-24 overflow-x-clip"
             style={{
                 cursor: `url(${cursorYouImage.src}) 32 32, auto`,
@@ -161,12 +162,10 @@ export default function Hero() {
                     <Pointer name="Bitcoin" color="red" />
                 </motion.div>
                 <h1 className="text-6xl md:text-7xl lg:text-8xl font-medium text-center mt-6">
-                    Impactful design, created effortlessely
+                    Unified Blockchain Experience
                 </h1>
                 <p className="text-center text-xl text-muted-foreground mt-8 max-w-2xl mx-auto">
-                    Design tools shouldn&apos;t slow you down. Layers combines
-                    powerful features with an intutive interface that keeps you
-                    in your creative flow.
+                    Track tokens, manage wallets, and send transactions with custom messages and GIFs across Ethereum, Solana, and Tron. Turn every transaction into a story.
                 </p>
                 <form className="flex flex-col sm:flex-row border border-white/15 rounded-full p-2 mt-8 max-w-lg mx-auto gap-2">
                     <input
@@ -180,7 +179,7 @@ export default function Hero() {
                         className="w-full sm:w-auto"
                         size="sm"
                     >
-                        Search 
+                        Explore
                     </Button>
                 </form>
             </div>

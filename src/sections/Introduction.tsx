@@ -4,7 +4,7 @@ import { useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-const text = `You're racing to create exceptional work, but traditional design tools slow you down with unnecessary complexity and steep learning curves.`;
+const text = `You're managing tokens across multiple blockchains, but traditional wallets keep you isolated in separate ecosystems with no way to express yourself.`;
 const words = text.split(" ");
 
 export default function Introduction() {
@@ -48,7 +48,7 @@ export default function Introduction() {
                             ))}
                         </span>
                         <span className="text-lime-400 block">
-                            That&apos;s why we built Layers.
+                            That&apos;s why we built Dexify.
                         </span>
                     </div>
                 </div>

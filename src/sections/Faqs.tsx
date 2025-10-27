@@ -6,24 +6,24 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
     {
-        question: "How is Layers different from other design tools?",
-        answer: "Unlike traditional design tools, Layers prioritizes speed and simplicity without sacrificing power. Our intelligent interface adapts to your workflow, reducing clicks and keeping you in your creative flow.",
+        question: "What blockchains does Dexify support?",
+        answer: "Dexify currently supports Ethereum, Solana, and Tron. We're adding support for Sui, Aptos, BNB Chain, and Base soon. Manage all your tokens from one unified dashboard.",
     },
     {
-        question: "Is there a learning curve?",
-        answer: "Layers is designed to feel intuitive from day one. Most designers are productive within hours, not weeks. We also provide interactive tutorials and comprehensive documentation to help you get started.",
+        question: "How do social transactions work?",
+        answer: "Social transactions let you attach custom messages and GIFs to your token transfers. These messages are stored off-chain but linked on-chain for traceability, turning simple transfers into expressive interactions.",
     },
     {
-        question: "How do you handle version control?",
-        answer: "Every change in Layers is automatically saved and versioned. You can review history, restore previous versions, and create named versions for important milestones.",
+        question: "Do I need separate wallets?",
+        answer: "No! Dexify includes built-in wallet functionality for Ethereum and Solana. You can view, send, and manage assets across multiple chains from a single interface without switching wallets.",
     },
     {
-        question: "Can I work offline?",
-        answer: "Yes! Layers includes a robust offline mode. Changes sync automatically when you&apos;re back online, so you can keep working anywhere.",
+        question: "Is my transaction data secure?",
+        answer: "Yes, absolutely. All transactions are processed securely through the blockchain networks. Dexify uses industry-standard security practices and does not store your private keys.",
     },
     {
-        question: "How does Layers handle collaboration?",
-        answer: "Layers is built for collaboration. You can invite team members to your projects, share feedback, and work together in real-time.",
+        question: "Can I track transaction history?",
+        answer: "Yes! Dexify provides comprehensive transaction history viewing with real-time balance updates. You can track all your token transfers, social messages, and media across all supported blockchains from one place.",
     },
 ];
 
@@ -45,13 +45,16 @@ export default function Faqs() {
                     {faqs.map((faq, faqIndex) => (
                         <div
                             key={faq.question}
-                            className="bg-neutral-900 rounded-2xl border border-white/10 p-6"
+                            className="relative rounded-2xl p-6 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-white/[0.02] backdrop-blur-2xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] hover:bg-gradient-to-br hover:from-white/[0.12] hover:via-white/[0.06] hover:to-white/[0.03] hover:border-white/30 hover:shadow-[0_12px_48px_0_rgba(0,0,0,0.45)] hover:scale-[1.01] transition-all duration-500 ease-out glass-glow"
                         >
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-lime-400/5 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                             <div
-                                className="flex justify-between items-center cursor-pointer"
+                                className="flex justify-between items-center cursor-pointer relative z-10"
                                 onClick={() => setSelectedIndex(faqIndex)}
                             >
-                                <h3 className="font-medium">{faq.question}</h3>
+                                <h3 className="font-medium bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                                    {faq.question}
+                                </h3>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="24"
@@ -84,7 +87,7 @@ export default function Faqs() {
                                         exit={{ height: 0, marginTop: 0 }}
                                         className="overflow-hidden"
                                     >
-                                        <p className="text-white/50">
+                                        <p className="text-white/70 leading-relaxed relative z-10">
                                             {faq.answer}
                                         </p>
                                     </motion.div>

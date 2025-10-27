@@ -37,7 +37,7 @@ export default function CallToAction() {
                         <div key={i} className="flex items-center gap-16">
                             <span className="text-lime-400 text-7xl">&#10038;</span>
                             <span className="group-hover:text-lime-400 transition duration-500">
-                                Try it for free
+                                Start Tracking Tokens
                             </span>
                         </div>
                     ))}
