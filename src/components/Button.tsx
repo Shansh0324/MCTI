@@ -24,6 +24,7 @@ export default function Button(
     } & ButtonHTMLAttributes<HTMLButtonElement>
 ) {
     const { variant, className, size, ...otherprops } = props;
+    const hasFlex = className?.includes('flex');
     return (
         <button
             className={classes({
@@ -36,7 +37,7 @@ export default function Button(
             {variant === "secondary" && (
                 <span className="absolute inset-0 bg-foreground transform translate-y-full transition-transform duration-500 ease-out group-hover:translate-y-0" />
             )}
-            <span className="relative z-10">{props.children}</span>
+            <span className={`relative z-10 ${hasFlex ? 'flex items-center' : ''}`}>{props.children}</span>
         </button>
     );
 }

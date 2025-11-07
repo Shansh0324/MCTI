@@ -122,4 +122,29 @@
   .glass-glow:hover::before {
     opacity: 1;
   }
+
+  /* Custom Scrollbar for Token Popup */
+  .custom-scrollbar {
+    overflow-x: hidden !important;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(132, 204, 22, 0.3);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(132, 204, 22, 0.5);
+  }
 }

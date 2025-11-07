@@ -5,9 +5,11 @@ import designExample2Image from "../assets/images/tokens.png";
 import Image from "next/image";
 import Pointer from "@/components/Pointer";
 import { motion, useAnimate } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLoading } from "@/contexts/LoadingContext";
 import cursorYouImage from "../assets/images/cursor-you.svg";
+import TokenPopup from "@/components/TokenPopup";
+import { indexTokens, Token } from "@/lib/tokenIndexer";
 
 export default function Hero() {
     const [leftDesignScope, leftDesignAnimate] = useAnimate();
@@ -15,6 +17,14 @@ export default function Hero() {
     const [rightDesignScope, rightDesignAnimate] = useAnimate();
     const [rightPointerScope, rightPointerAnimate] = useAnimate();
     const { hasLoaded } = useLoading();
+    
+    // Token indexing state
+    const [address, setAddress] = useState("");
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [ethTokens, setEthTokens] = useState<Token[]>([]);
+    const [solTokens, setSolTokens] = useState<Token[]>([]);
+    const [tronTokens, setTronTokens] = useState<Token[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (hasLoaded) {
@@ -167,21 +177,63 @@ export default function Hero() {
                 <p className="text-center text-xl text-muted-foreground mt-8 max-w-2xl mx-auto">
                     Track tokens, manage wallets, and send transactions with custom messages and GIFs across Ethereum, Solana, and Tron. Turn every transaction into a story.
                 </p>
-                <form className="flex flex-col sm:flex-row border border-white/15 rounded-full p-2 mt-8 max-w-lg mx-auto gap-2">
+                <form 
+                    className="flex flex-col sm:flex-row border border-white/15 rounded-full p-2 mt-8 max-w-lg mx-auto gap-2"
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                        
+                        const addressToUse = address.trim();
+                        
+                        // If no address entered, prompt user
+                        if (!addressToUse) {
+                            alert("Please enter a wallet address to explore tokens.");
+                            return;
+                        }
+                        
+                        setLoading(true);
+                        setIsPopupOpen(true);
+                        
+                        try {
+                            const result = await indexTokens(addressToUse);
+                            setEthTokens(result.ethTokens);
+                            setSolTokens(result.solTokens);
+                            setTronTokens(result.tronTokens);
+                        } catch (error) {
+                            console.error("Error indexing tokens:", error);
+                            alert("Failed to index tokens. Please try again.");
+                        } finally {
+                            setLoading(false);
+                        }
+                    }}
+                >
                     <input
-                        type="email"
-                        placeholder="Enter the address"
-                        className="bg-transparent px-4 flex-1 min-w-0 outline-none"
+                        type="text"
+                        placeholder="Enter wallet address to explore"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        className="bg-transparent px-4 flex-1 min-w-0 outline-none text-white placeholder:text-white/50"
                     />
                     <Button
                         type="submit"
                         variant="primary"
                         className="w-full sm:w-auto"
                         size="sm"
+                        disabled={loading}
                     >
-                        Explore
+                        {loading ? "Loading..." : "Explore"}
                     </Button>
                 </form>
+                
+                {/* Token Popup */}
+                <TokenPopup
+                    isOpen={isPopupOpen}
+                    onClose={() => setIsPopupOpen(false)}
+                    address={address}
+                    ethTokens={ethTokens}
+                    solTokens={solTokens}
+                    tronTokens={tronTokens}
+                    loading={loading}
+                />
             </div>
         </section>
     );

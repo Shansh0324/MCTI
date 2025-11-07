@@ -7,6 +7,7 @@ import Integrations from "@/sections/Integrations";
 import Faqs from "@/sections/Faqs";
 import Footer from "@/sections/Footer";
 import CallToAction from "@/sections/CallToAction";
+
 export default function Home() {
     return (
         <>
