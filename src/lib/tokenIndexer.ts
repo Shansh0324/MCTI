@@ -8,15 +8,50 @@ export interface Token {
   error?: string;
 }
 
+// API Response Types
+interface EthplorerToken {
+  tokenInfo: {
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
+  balance: number;
+}
+
+interface EthplorerResponse {
+  tokens: EthplorerToken[];
+}
+
+interface SolanaTokenResponse {
+  result?: {
+    tokens: Array<{
+      name?: string;
+      symbol?: string;
+      balance?: string;
+      amount?: string;
+      mint: string;
+    }>;
+  };
+}
+
+interface TronTokenResponse {
+  trc20token_balances?: Array<{
+    tokenName?: string;
+    tokenAbbr?: string;
+    balance: number;
+    tokenDecimal?: number;
+  }>;
+}
+
 // ===== ETHEREUM FETCH =====
 export const fetchEthereumTokens = async (address: string): Promise<Token[]> => {
   try {
     const url = `https://api.ethplorer.io/getAddressInfo/${address}?apiKey=freekey`;
     const response = await fetch(url);
-    const data = await response.json();
-    
+    const data: EthplorerResponse = await response.json();
+
     if (data && data.tokens) {
-      return data.tokens.map((token: any) => ({
+      return data.tokens.map((token: EthplorerToken) => ({
         name: token.tokenInfo.name,
         symbol: token.tokenInfo.symbol,
         balance: token.balance / Math.pow(10, token.tokenInfo.decimals || 18),
@@ -36,14 +71,14 @@ export const fetchSolanaTokens = async (address: string): Promise<Token[]> => {
     {
       name: "All That Node API",
       url: `https://api.allthatnode.com/solana/v1/mainnet/account/${address}/tokens`,
-      transform: (data: any) => {
+      transform: (data: SolanaTokenResponse) => {
         if (data.result && data.result.tokens) {
           return data.result.tokens
-            .filter((token: any) => parseFloat(token.balance) > 0)
-            .map((token: any) => ({
+            .filter((token) => parseFloat(token.balance || '0') > 0)
+            .map((token) => ({
               name: token.name || `Token ${token.mint.slice(0, 8)}...`,
               symbol: token.symbol || token.mint.slice(0, 6) + "...",
-              balance: parseFloat(token.balance),
+              balance: parseFloat(token.balance || '0'),
               mint: token.mint,
             }));
         }
@@ -53,14 +88,14 @@ export const fetchSolanaTokens = async (address: string): Promise<Token[]> => {
     {
       name: "QuickNode API",
       url: `https://api.quicknode.com/solana/v1/mainnet/account/${address}/tokens`,
-      transform: (data: any) => {
+      transform: (data: SolanaTokenResponse) => {
         if (data.result && data.result.tokens) {
           return data.result.tokens
-            .filter((token: any) => parseFloat(token.balance) > 0)
-            .map((token: any) => ({
+            .filter((token) => parseFloat(token.balance || '0') > 0)
+            .map((token) => ({
               name: token.name || `Token ${token.mint.slice(0, 8)}...`,
               symbol: token.symbol || token.mint.slice(0, 6) + "...",
-              balance: parseFloat(token.balance),
+              balance: parseFloat(token.balance || '0'),
               mint: token.mint,
             }));
         }
@@ -70,14 +105,14 @@ export const fetchSolanaTokens = async (address: string): Promise<Token[]> => {
     {
       name: "SolanaFM API",
       url: `https://api.solana.fm/v0/accounts/${address}/tokens`,
-      transform: (data: any) => {
+      transform: (data: SolanaTokenResponse) => {
         if (data.result && data.result.tokens) {
           return data.result.tokens
-            .filter((token: any) => parseFloat(token.amount) > 0)
-            .map((token: any) => ({
+            .filter((token) => parseFloat(token.amount || '0') > 0)
+            .map((token) => ({
               name: token.name || `Token ${token.mint.slice(0, 8)}...`,
               symbol: token.symbol || token.mint.slice(0, 6) + "...",
-              balance: parseFloat(token.amount),
+              balance: parseFloat(token.amount || '0'),
               mint: token.mint,
             }));
         }
@@ -109,8 +144,8 @@ export const fetchSolanaTokens = async (address: string): Promise<Token[]> => {
       } else {
         console.warn(`${approaches[i].name} returned status: ${response.status}`);
       }
-    } catch (error: any) {
-      console.warn(`${approaches[i].name} failed:`, error.message);
+    } catch (error) {
+      console.warn(`${approaches[i].name} failed:`, error instanceof Error ? error.message : String(error));
     }
   }
 
@@ -134,8 +169,8 @@ export const fetchSolanaTokens = async (address: string): Promise<Token[]> => {
     
     console.log(`Returning ${mockTokens.length} mock Solana tokens for demonstration`);
     return mockTokens;
-  } catch (error: any) {
-    console.warn("Mock approach failed:", error.message);
+  } catch (error) {
+    console.warn("Mock approach failed:", error instanceof Error ? error.message : String(error));
   }
 
   // Final fallback
@@ -153,12 +188,12 @@ export const fetchTronTokens = async (address: string): Promise<Token[]> => {
     const response = await fetch(
       `https://apilist.tronscan.org/api/account?address=${address}`
     );
-    
+
     if (!response.ok) throw new Error("Failed to fetch Tron tokens");
-    
-    const data = await response.json();
+
+    const data: TronTokenResponse = await response.json();
     const tokens =
-      data?.trc20token_balances?.map((token: any) => ({
+      data?.trc20token_balances?.map((token) => ({
         name: token.tokenName || "Unknown Token",
         symbol: token.tokenAbbr || "N/A",
         balance: token.balance / Math.pow(10, token.tokenDecimal || 6),
@@ -178,10 +213,6 @@ export const indexTokens = async (address: string): Promise<{
   solTokens: Token[];
   tronTokens: Token[];
 }> => {
-  const ethTokens: Token[] = [];
-  const solTokens: Token[] = [];
-  const tronTokens: Token[] = [];
-
   // Detect chain by address prefix
   if (address.startsWith("0x")) {
     // Ethereum address
