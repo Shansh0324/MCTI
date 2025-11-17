@@ -139,7 +139,7 @@ export default function TokenDetailPopup({
                             {token.mint}
                           </p>
                           <button
-                            onClick={() => copyToClipboard(token.mint, "mint")}
+                            onClick={() => copyToClipboard(token.mint!, "mint")}
                             className="flex-shrink-0 p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
                             type="button"
                             title="Copy mint address"
