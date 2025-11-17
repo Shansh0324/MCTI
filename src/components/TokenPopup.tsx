@@ -183,7 +183,7 @@ export default function TokenPopup({
                       <div className="text-center">
                         <p className="text-white/70 text-lg mb-2">No tokens found</p>
                         <p className="text-white/50 text-sm">
-                          This address doesn't have any tokens on the detected chain.
+                          This address doesn&apos;t have any tokens on the detected chain.
                         </p>
                       </div>
                     </div>
