@@ -129,7 +129,7 @@ export default function Navbar() {
                                         </Button>
                                         <Button 
                                             variant="primary"
-                                            onClick={() => window.open('https://solana-me.netlify.app', '_blank')}
+                                            onClick={() => window.open('https://krypt-sol.netlify.app/', '_blank')}
                                         >
                                             Send SOL
                                         </Button>
